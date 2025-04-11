@@ -83,3 +83,15 @@ export const removeFromCart = (productId) => {
 const saveToStorage = () => {
     localStorage.setItem("cart",JSON.stringify(cart));
 }
+
+export const updateCartQuantity = (productId, newQuantity) =>{
+    let matchingItem;
+    cart.forEach((item)=>{
+        if(item.id === productId){
+            matchingItem = item;
+        }
+    })
+
+    matchingItem.quantity = newQuantity;
+    saveToStorage();
+}
