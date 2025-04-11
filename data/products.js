@@ -7,7 +7,7 @@ export const products = [
       stars: 4.5,
       count: 87
     },
-    price: 1090,
+    price: 190,
     keywords: [
       "socks",
       "sports",
@@ -22,7 +22,7 @@ export const products = [
       stars: 4,
       count: 127
     },
-    price: 2095,
+    price: 650,
     keywords: [
       "sports",
       "basketballs"
