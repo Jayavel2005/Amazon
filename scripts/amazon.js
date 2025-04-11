@@ -1,10 +1,11 @@
+import { cart, addToCart, cartQuantity } from "../data/cart.js";
 import { products } from "../data/products.js";
 
 let productHtml = ''
 
 products.forEach((product) => {
     productHtml += `
-         <div class="product-container">
+         <div class="product-container js-product-container">
           <div class="product-image-container">
             <img class="product-image"
               src="${product.image}">
@@ -27,7 +28,7 @@ products.forEach((product) => {
           </div>
 
           <div class="product-quantity-container">
-            <select>
+            <select class="js-quantity-selector">
               <option selected value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -43,12 +44,12 @@ products.forEach((product) => {
 
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart">
+          <div class="added-to-cart js-added-to-cart">
             <img src="images/icons/checkmark.png">
             Added
           </div>
 
-          <button class="add-to-cart-button button-primary">
+          <button class="add-to-cart-button button-primary js-add-to-cart" data-product-id="${product.id}" data-product-name="${product.name}">
             Add to Cart
           </button>
         </div>
@@ -56,4 +57,41 @@ products.forEach((product) => {
 });
 
 
-let mainProductContainer = document.querySelector(".js-product-grid").innerHTML = productHtml;
+const mainProductContainer = document.querySelector(".js-product-grid").innerHTML = productHtml;
+
+
+document.querySelectorAll(".js-product-container").forEach((product) => {
+
+    const addCartButton = product.querySelector(".js-add-to-cart");
+    const quantitySelector = product.querySelector(".js-quantity-selector");
+    const addedToCartMessage = product.querySelector(".js-added-to-cart");
+
+    addCartButton.addEventListener("click", () => {
+
+        const productId = addCartButton.dataset.productId;
+
+        addToCart(productId, quantitySelector.value);
+
+        if(addedToCartMessage._timeoutId){
+            clearTimeout(addedToCartMessage._timeoutId);
+        }
+        addedToCartMessage.classList.add("added-to-cart-display");
+
+        addedToCartMessage._timeoutId = setTimeout(()=>{
+            addedToCartMessage.classList.remove("added-to-cart-display");
+        },3000);
+
+
+        document.querySelector(".js-cart-quantity").innerHTML = cartQuantity();
+
+
+
+
+    });
+});
+
+
+
+
+
+
