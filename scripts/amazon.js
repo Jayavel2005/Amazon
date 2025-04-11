@@ -90,6 +90,7 @@ document.querySelectorAll(".js-product-container").forEach((product) => {
     });
 });
 
+document.querySelector(".js-cart-quantity").innerHTML = cartQuantity();
 
 
 
