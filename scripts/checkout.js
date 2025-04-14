@@ -2,7 +2,7 @@
 import { cart, removeFromCart, cartQuantity, updateCartQuantity, updateDeliveryOption } from "../data/cart.js";
 import { products } from "../data/products.js";
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
-import {deliveryOption} from "../data/deliveryOption.js";
+import { deliveryOption } from "../data/deliveryOption.js";
 
 // Initialize the checkout HTML string
 let checkOutHtml = '';
@@ -111,6 +111,8 @@ document.querySelectorAll(".js-save-quantity").forEach((saveLink) => {
     priceElement.innerHTML = `&#8377;${matchingItem.price * newQuantity}`;
 
     document.querySelector(".js-return-to-home").innerHTML = `${cartQuantity()} items`;
+    document.querySelector(".js-payment-summary").innerHTML = generatePaymentSummary();
+
   });
 });
 
@@ -140,6 +142,95 @@ function deliveryOptionHtml(matchingItem, cartItem) {
   return html;
 }
 
+
+
+
+function generatePaymentSummary() {
+  let totalCost = 0;
+  let shippingFee = 0;
+
+  cart.forEach((cartItem) => {
+    // Find matching product
+    let matchingItem;
+    products.forEach((product) => {
+      if (product.id === cartItem.id) {
+        matchingItem = product;
+      }
+    });
+
+    if (matchingItem) {
+      totalCost += matchingItem.price * cartItem.quantity;
+    }
+
+    // Find matching delivery option
+    let deliveryOptionSelected;
+    deliveryOption.forEach((option) => {
+      if (cartItem.deliveryOptionId === option.id) {
+        deliveryOptionSelected = option;
+      }
+    });
+
+    if (deliveryOptionSelected) {
+      shippingFee += deliveryOptionSelected.price;
+    }
+    console.log(deliveryOptionSelected);
+
+
+  });
+
+  let beforeTaxAmount = totalCost + shippingFee;
+  let taxAmount = ((totalCost + shippingFee) * 0.02);
+  let afterTaxAmount = taxAmount + (totalCost + shippingFee);
+
+  // alert(`Total Cost: $${totalCost}\nShipping Fee: $${shippingFee}`);
+
+  let paymentHtml =
+    `<div class="payment-summary-title">
+          Order Summary
+        </div>
+
+        <div class="payment-summary-row">
+          <div>Items (${cartQuantity()}):</div>
+          <div class="payment-summary-money">&#8377;${totalCost}</div>
+        </div>
+
+        <div class="payment-summary-row">
+          <div>Shipping &amp; handling:</div>
+          <div class="payment-summary-money">${shippingFee === 0 ? 'FREE' : `&#8377;${shippingFee}`}</div>
+        </div>
+
+        <div class="payment-summary-row subtotal-row">
+          <div>Total before tax:</div>
+          <div class="payment-summary-money">&#8377;${beforeTaxAmount}</div>
+        </div>
+
+        <div class="payment-summary-row">
+          <div>Estimated tax (2%):</div>
+          <div class="payment-summary-money">&#8377;${taxAmount}</div>
+        </div>
+
+        <div class="payment-summary-row total-row">
+          <div>Order total:</div>
+          <div class="payment-summary-money">&#8377;${afterTaxAmount}</div>
+        </div>
+
+        <button class="place-order-button button-primary">
+          Place your order
+        </button>`;
+
+  return paymentHtml;
+
+
+}
+
+
+document.querySelector(".js-payment-summary").innerHTML = generatePaymentSummary();
+
+
+
+
+
+
 // Function to reattach delivery option listeners
 function reattachDeliveryOptionListeners() {
   document.querySelectorAll(".delivery-option-input").forEach((input) => {
@@ -148,6 +239,8 @@ function reattachDeliveryOptionListeners() {
       const deliveryOptionId = input.dataset.deliveryOptionId;
 
       updateDeliveryOption(productId, deliveryOptionId);
+      // generatePaymentSummary();
+
 
       const selectedOption = deliveryOption.find(option => option.id === deliveryOptionId);
       const today = dayjs();
@@ -168,6 +261,8 @@ function reattachDeliveryOptionListeners() {
 
       // Reattach again recursively
       reattachDeliveryOptionListeners();
+      document.querySelector(".js-payment-summary").innerHTML = generatePaymentSummary();
+
     });
   });
 }
