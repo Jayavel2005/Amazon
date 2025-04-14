@@ -78,6 +78,10 @@ document.querySelectorAll(".js-delete-product").forEach((cartItem) => {
     removeFromCart(productId);
     cartItemContainer.remove();
     document.querySelector(".js-return-to-home").innerHTML = `${cartQuantity()} items`;
+    // document.querySelector(".js-payment-summary").innerHTML = generatePaymentSummary();
+    document.querySelector(".js-payment-summary").innerHTML = cartQuantity() === 0 ? "" : generatePaymentSummary();
+
+
   });
 });
 
@@ -111,7 +115,9 @@ document.querySelectorAll(".js-save-quantity").forEach((saveLink) => {
     priceElement.innerHTML = `&#8377;${matchingItem.price * newQuantity}`;
 
     document.querySelector(".js-return-to-home").innerHTML = `${cartQuantity()} items`;
-    document.querySelector(".js-payment-summary").innerHTML = generatePaymentSummary();
+    // document.querySelector(".js-payment-summary").innerHTML = generatePaymentSummary();
+    document.querySelector(".js-payment-summary").innerHTML = cartQuantity() === 0 ? "" : generatePaymentSummary();
+
 
   });
 });
@@ -179,8 +185,8 @@ function generatePaymentSummary() {
   });
 
   let beforeTaxAmount = totalCost + shippingFee;
-  let taxAmount = ((totalCost + shippingFee) * 0.02);
-  let afterTaxAmount = taxAmount + (totalCost + shippingFee);
+  let taxAmount = ((totalCost + shippingFee) * 0.02).toFixed(2);
+  let afterTaxAmount = (((totalCost + shippingFee) * 0.02) + (totalCost + shippingFee)).toFixed(2);
 
   // alert(`Total Cost: $${totalCost}\nShipping Fee: $${shippingFee}`);
 
@@ -224,7 +230,8 @@ function generatePaymentSummary() {
 }
 
 
-document.querySelector(".js-payment-summary").innerHTML = generatePaymentSummary();
+document.querySelector(".js-payment-summary").innerHTML = cartQuantity() === 0 ? "" : generatePaymentSummary();
+
 
 
 
@@ -261,7 +268,9 @@ function reattachDeliveryOptionListeners() {
 
       // Reattach again recursively
       reattachDeliveryOptionListeners();
-      document.querySelector(".js-payment-summary").innerHTML = generatePaymentSummary();
+      // document.querySelector(".js-payment-summary").innerHTML = generatePaymentSummary();
+      document.querySelector(".js-payment-summary").innerHTML = cartQuantity() === 0 ? "" : generatePaymentSummary();
+
 
     });
   });
