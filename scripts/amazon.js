@@ -1,9 +1,15 @@
 import { cart, addToCart, cartQuantity } from "../data/cart.js";
-import { products } from "../data/products.js";
+import { products, loadProducts } from "../data/products.js";
 
-let productHtml = ''
+loadProducts(renderProductPage);
 
-products.forEach((product) => {
+function renderProductPage() {
+
+
+
+  let productHtml = ''
+
+  products.forEach((product) => {
     productHtml += `
          <div class="product-container js-product-container">
           <div class="product-image-container">
@@ -54,13 +60,13 @@ products.forEach((product) => {
           </button>
         </div>
     `;
-});
+  });
 
 
-const mainProductContainer = document.querySelector(".js-product-grid").innerHTML = productHtml;
+  const mainProductContainer = document.querySelector(".js-product-grid").innerHTML = productHtml;
 
 
-document.querySelectorAll(".js-product-container").forEach((product) => {
+  document.querySelectorAll(".js-product-container").forEach((product) => {
 
     const addCartButton = product.querySelector(".js-add-to-cart");
     const quantitySelector = product.querySelector(".js-quantity-selector");
@@ -68,31 +74,32 @@ document.querySelectorAll(".js-product-container").forEach((product) => {
 
     addCartButton.addEventListener("click", () => {
 
-        const productId = addCartButton.dataset.productId;
+      const productId = addCartButton.dataset.productId;
 
-        addToCart(productId, quantitySelector.value);
+      addToCart(productId, quantitySelector.value);
 
-        if(addedToCartMessage._timeoutId){
-            clearTimeout(addedToCartMessage._timeoutId);
-        }
-        addedToCartMessage.classList.add("added-to-cart-display");
+      if (addedToCartMessage._timeoutId) {
+        clearTimeout(addedToCartMessage._timeoutId);
+      }
+      addedToCartMessage.classList.add("added-to-cart-display");
 
-        addedToCartMessage._timeoutId = setTimeout(()=>{
-            addedToCartMessage.classList.remove("added-to-cart-display");
-        },3000);
+      addedToCartMessage._timeoutId = setTimeout(() => {
+        addedToCartMessage.classList.remove("added-to-cart-display");
+      }, 3000);
 
 
-        document.querySelector(".js-cart-quantity").innerHTML = cartQuantity();
+      document.querySelector(".js-cart-quantity").innerHTML = cartQuantity();
 
 
 
 
     });
-});
+  });
 
-document.querySelector(".js-cart-quantity").innerHTML = cartQuantity();
-
-
+  document.querySelector(".js-cart-quantity").innerHTML = cartQuantity();
 
 
 
+
+
+}

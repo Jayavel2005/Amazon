@@ -1,9 +1,11 @@
 // Import necessary functions and data
 import { cart, removeFromCart, cartQuantity, updateCartQuantity, updateDeliveryOption } from "../data/cart.js";
-import { products } from "../data/products.js";
+import { products,loadProducts } from "../data/products.js";
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 import { deliveryOption } from "../data/deliveryOption.js";
-import '../data/backend-practice.js';
+// import '../data/backend-practice.js';
+loadProducts(()=>{
+
 
 // Initialize the checkout HTML string
 let checkOutHtml = '';
@@ -276,3 +278,5 @@ function reattachDeliveryOptionListeners() {
     });
   });
 }
+
+});
