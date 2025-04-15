@@ -3,6 +3,7 @@ import { cart, removeFromCart, cartQuantity, updateCartQuantity, updateDeliveryO
 import { products } from "../data/products.js";
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 import { deliveryOption } from "../data/deliveryOption.js";
+import '../data/backend-practice.js';
 
 // Initialize the checkout HTML string
 let checkOutHtml = '';
