@@ -667,7 +667,7 @@ export function loadProducts(renderProductPageFun) {
 
   xhr.addEventListener("load", () => {
     products = JSON.parse(xhr.response);
-    console.log('load products');
+    // console.log('load products');
     renderProductPageFun();
 
   });
