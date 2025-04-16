@@ -1,24 +1,18 @@
 // Import necessary functions and data
 import { cart, removeFromCart, cartQuantity, updateCartQuantity, updateDeliveryOption, loadCart } from "../data/cart.js";
-import { products, loadProducts } from "../data/products.js";
+import { products, loadProducts ,loadProductsFetch} from "../data/products.js";
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 import { deliveryOption } from "../data/deliveryOption.js";
 
 
 Promise.all([
-  new Promise((resolve) => {
-
-    loadProducts(() => {
-      resolve('value 1');
-    })
-
-  }),
+  loadProductsFetch(),
   new Promise((resolve) => {
     loadCart(() => {
       resolve();
     });
   })
-  
+
 ]);
 
 
