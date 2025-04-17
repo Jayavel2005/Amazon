@@ -6,14 +6,19 @@ import { deliveryOption } from "../data/deliveryOption.js";
 
 
 async function loadPage() {
+  try{
 
-  await loadProductsFetch();
-
-  await new Promise((resolve) => {
-    loadCart(() => {
-      resolve();
+    await loadProductsFetch();
+  
+    const value = await new Promise((resolve) => {
+      loadCart(() => {
+        resolve();
+      });
     });
-  })
+  }catch(error){
+    console.log(error);
+    
+  }
 
 
 
