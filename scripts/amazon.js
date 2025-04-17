@@ -30,7 +30,7 @@ function renderProductPage() {
           </div>
 
           <div class="product-price">
-            &#8377;${product.price}
+            &#8377;${product.priceCents}
           </div>
 
           <div class="product-quantity-container">

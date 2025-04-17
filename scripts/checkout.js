@@ -73,7 +73,7 @@ loadProducts(() => {
 
         <div class="cart-item-details">
           <div class="product-name">${matchingItem.name}</div>
-          <div class="product-price">&#8377;${matchingItem.price * cartItem.quantity}</div>
+          <div class="product-price">&#8377;${matchingItem.priceCents * cartItem.quantity}</div>
           <div class="product-quantity">
             <span>Quantity: <span class="quantity-label js-quantity-label-${matchingItem.id}">${cartItem.quantity}</span></span>
             <span class="update-quantity-link link-primary js-update-quantity-link" data-update-product-id="${matchingItem.id}">Update</span>
@@ -195,7 +195,7 @@ loadProducts(() => {
         });
 
         if (matchingItem) {
-          totalCost += matchingItem.price * cartItem.quantity;
+          totalCost += matchingItem.priceCents * cartItem.quantity;
         }
 
         // Find matching delivery option
@@ -232,7 +232,7 @@ loadProducts(() => {
 
         <div class="payment-summary-row">
           <div>Shipping &amp; handling:</div>
-          <div class="payment-summary-money">${shippingFee === 0 ? 'FREE' : `&#8377;${shippingFee}`}</div>
+          <div class="payment-summary-money">${shippingFee === 0 ? 'FREE' : `$${shippingFee}`}</div>
         </div>
 
         <div class="payment-summary-row subtotal-row">
