@@ -3,21 +3,22 @@ import { cart, removeFromCart, cartQuantity, updateCartQuantity, updateDeliveryO
 import { products, loadProducts, loadProductsFetch } from "../data/products.js";
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 import { deliveryOption } from "../data/deliveryOption.js";
+import { addOrders } from "../data/orders.js";
 
 
 async function loadPage() {
-  try{
+  try {
 
     await loadProductsFetch();
-  
+
     const value = await new Promise((resolve) => {
       loadCart(() => {
         resolve();
       });
     });
-  }catch(error){
+  } catch (error) {
     console.log(error);
-    
+
   }
 
 
@@ -249,7 +250,7 @@ loadProducts(() => {
           <div class="payment-summary-money">&#8377;${afterTaxAmount}</div>
         </div>
 
-        <button class="place-order-button button-primary">
+        <button class="place-order-button button-primary js-place-order">
           Place your order
         </button>`;
 
@@ -260,6 +261,31 @@ loadProducts(() => {
 
 
     document.querySelector(".js-payment-summary").innerHTML = cartQuantity() === 0 ? "" : generatePaymentSummary();
+
+    document.querySelector(".js-place-order").addEventListener("click", async () => {
+
+
+      try {
+        const response = await fetch("https://supersimplebackend.dev/orders", {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            cart: cart
+          })
+
+        });
+        const order = await response.json();
+        addOrders(order)
+      } catch (error) {
+        console.log("error");
+        
+      }
+      window.location.href = 'orders.html'
+
+
+    });
 
 
 
